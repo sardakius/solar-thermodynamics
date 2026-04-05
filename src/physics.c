@@ -3,6 +3,7 @@
 #include <math.h>
 
 float dP(float M_r, float r, float rho) {
+    // return (-G*M_r*rho*dr)/(pow(r, 2));
     return (-G*M_r*rho*dr)/(pow(r, 2));
 };
 
@@ -15,7 +16,7 @@ float rho(float P, float T) {
 };
 
 float epsilon(float T, float rho) {
-    return epsilon_0*rho*pow(T, 4);
+    return epsilon_0*rho*pow(T/1e6f, 4);
 };
 
 float kappa(float T, float rho) {

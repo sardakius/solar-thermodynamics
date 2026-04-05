@@ -34,15 +34,19 @@ sun::sun() {
 
 void sun::simulate() {
     for (int i = 1; i <= NUM_SHELLS - 1; i++) {
-        shell p = shells[i - 1];
+        shell p = shells[i - 1];\
 
-        float deltaM = dM(shells[i].radius, p.density);
+        shells[i].density = rho(p.pressure, p.temperature);
+
+        float deltaM = dM(shells[i].radius, shells[i].density);
+
         shells[i].mass = p.mass + deltaM;
-        shells[i].luminosity = dL(deltaM, p.energy_generation_rate);
+        shells[i].luminosity = p.luminosity + dL(deltaM, p.energy_generation_rate);
 
-        shells[i].pressure =  p.pressure + dP(shells[i].mass, shells[i].radius, p.density);
-        shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, p.absorption, p.density);
-        shells[i].density = rho(shells[i].pressure, shells[i].temperature);
+        cout << p.luminosity << " " << dL(deltaM, p.energy_generation_rate) << " " << p.temperature << " " << dT(shells[i].luminosity, shells[i].radius, p.temperature, p.absorption, p.density) << " " << shells[i].radius << endl;
+
+        shells[i].pressure =  p.pressure + dP(shells[i].mass, shells[i].radius, shells[i].density);
+        shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, p.absorption, shells[i].density);
 
         shells[i].energy_generation_rate = epsilon(shells[i].temperature, shells[i].density);
         shells[i].absorption = kappa(shells[i].temperature, shells[i].density);

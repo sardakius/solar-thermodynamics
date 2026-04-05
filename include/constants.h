@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 // simulation parameters
-const int NUM_SHELLS = 5000;
+const int NUM_SHELLS = 50000;
 const float TIME_STEP = 1e5f; // in seconds
 
 // Dimensions
