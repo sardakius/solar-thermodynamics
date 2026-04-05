@@ -4,7 +4,8 @@
 #define GLFW_DLL
 #include <GLFW/glfw3.h>
 
-
+#include <simulation/sun.h>
+#include <simulation/shell.h>
 
 using namespace std; 
 
@@ -15,6 +16,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 int main()
 {
+    sun Sun = sun();
+    Sun.simulate();
+
+    shell* shells = Sun.get_shells();
+
+    for (int i = 0; i <= NUM_SHELLS - 1; i++) {
+        cout << "Radius: " << shells[i].radius << "m. Temperature: " << shells[i].temperature << "K" << endl;     
+    }
+
     if (!glfwInit())
     {
         cout << "Failed to initialize GLFW" << endl;
@@ -51,5 +61,6 @@ int main()
     }
 
     glfwTerminate();
+
     return 0;
 }

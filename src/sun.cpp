@@ -1,37 +1,53 @@
-#include <include/constants.h>
-#include <include/simulation/shell.h>
-#include <cmath>
+#include <constants.h>
+#include <simulation/shell.h>
+#include <simulation/sun.h>
+#include <simulation/physics.h>
+#include <math.h>
 
 using namespace std;
 
-class sun {
-    public: 
-        shell shells[NUM_SHELLS + 1];
-
-        sun();
-        void simulate();
-
-        shell* get_shells() {
-            return shells;
-        };
-};
-
 sun::sun() {
     // initialize the shells
-    for (int i = 0; i <= NUM_SHELLS; i++) {
-        shells[i].radius = dr * i;
-        shells[i].mass = 0.0f;
-        shells[i].luminosity = 0.0f;
-        shells[i].temperature = 0.0f;
-        shells[i].density = 0.0f;
-        shells[i].pressure = 0.0f;
+    for (int i = 1; i <= NUM_SHELLS; i++) {
+        shells[i - 1].radius = dr * i;
+        shells[i - 1].energy_generation_rate = 0.0f;
+        shells[i - 1].absorption = 0.0f;
+        shells[i - 1].mass = 0.0f;
+        shells[i - 1].luminosity = 0.0f;
+        shells[i - 1].pressure = 0.0f;
+        shells[i - 1].temperature = 0.0f;
+        shells[i - 1].density = 0.0f;
     }
 
     // initialize the core
-    shells[0].radius = 0.0f;
+    shells[0].pressure = SOLAR_CORE_PRESSURE;
     shells[0].temperature = SOLAR_CORE_TEMPERATURE;
     shells[0].density = SOLAR_CORE_DENSITY;
-    shells[0].pressure = SOLAR_CORE_PRESSURE;
 
-    shells[0].mass = (4.0f / 3.0f) * PI * pow(dr, 3) * shells[0].density;
+    shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
+    shells[0].absorption = kappa(shells[0].temperature, shells[0].density);
+
+    shells[0].mass = dM(shells[0].radius, shells[0].density);
+    shells[0].luminosity = dL(shells[0].mass, shells[0].energy_generation_rate);
+};
+
+void sun::simulate() {
+    for (int i = 1; i <= NUM_SHELLS - 1; i++) {
+        shell p = shells[i - 1];
+        
+        float deltaM = dM(shells[i].radius, p.density);
+        shells[i].mass = p.mass + deltaM;
+        shells[i].luminosity = dL(deltaM, p.energy_generation_rate);
+
+        shells[i].pressure =  p.pressure + dP(shells[i].mass, shells[i].radius, p.density);
+        shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, p.absorption, p.density);
+        shells[i].density = rho(shells[i].pressure, shells[i].temperature);
+
+        shells[i].energy_generation_rate = epsilon(shells[i].temperature, shells[i].density);
+        shells[i].absorption = kappa(shells[i].temperature, shells[i].density);
+    }
+}
+
+shell* sun::get_shells() {
+    return shells;
 }
