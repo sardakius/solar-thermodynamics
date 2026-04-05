@@ -3,11 +3,11 @@
 #include <math.h>
 
 float dP(float M_r, float r, float rho) {
-    return (-G*M_r*rho)/(pow(r, 2));
+    return (-G*M_r*rho*dr)/(pow(r, 2));
 };
 
 float dT(float L_r, float r, float T, float kappa, float rho) {
-    return (-3*kappa*rho*L_r)/(4*a*c*pow(T, 3)*4*PI*pow(r, 2));
+    return (-3*kappa*rho*L_r*dr)/(4*a*c*pow(T, 3)*4*PI*pow(r, 2));
 };
 
 float rho(float P, float T) {

@@ -3,6 +3,7 @@
 #include <simulation/sun.h>
 #include <simulation/physics.h>
 #include <math.h>
+#include <iostream>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ sun::sun() {
 void sun::simulate() {
     for (int i = 1; i <= NUM_SHELLS - 1; i++) {
         shell p = shells[i - 1];
-        
+
         float deltaM = dM(shells[i].radius, p.density);
         shells[i].mass = p.mass + deltaM;
         shells[i].luminosity = dL(deltaM, p.energy_generation_rate);
