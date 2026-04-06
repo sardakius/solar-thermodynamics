@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 // simulation parameters
-const int NUM_SHELLS = 50000;
+const unsigned int NUM_SHELLS = 50000;
 const float TIME_STEP = 1e5f; // in seconds
 
 // Dimensions
@@ -25,7 +25,7 @@ const float X = 0.7438f; // hydrogen mass fraction
 const float Z = 0.0139f; // metallicity (helium and heavier elements)
 
 const float epsilon_0 = 1.08e-12f; // energy generation rate at the core in W/kg
-const float kappa_0 = 4e24f; // opacity constant in m^2/kg
+const float kappa_0 = 4e21f; // opacity constant in m^2/kg
 
 const float dr = SOLAR_RADIUS / NUM_SHELLS; // thickness of each shell in meters
 

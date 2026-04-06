@@ -22,7 +22,7 @@ int main()
     shell* shells = Sun.get_shells();
 
     for (int i = 0; i <= NUM_SHELLS - 1; i++) {
-        cout << "Radius: " << shells[i].radius << "m. Pressue: " << shells[i].pressure << "Pa" << endl;     
+        cout << "Radius: " << shells[i].radius << "m Pressure: " << shells[i].pressure << "Pa Temperature: " << shells[i].temperature << "K Density: " << shells[i].density << "kg/m^3 Mass: " << shells[i].mass << "kg" << endl;     
     }
 
     if (!glfwInit())

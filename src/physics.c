@@ -2,31 +2,32 @@
 #include <constants.h>
 #include <math.h>
 
-float dP(float M_r, float r, float rho) {
+double dP(float M_r, float r, float rho) {
     // return (-G*M_r*rho*dr)/(pow(r, 2));
-    return (-G*M_r*rho*dr)/(pow(r, 2));
+    return (-G*M_r*rho*dr)/(r*r);
 };
 
-float dT(float L_r, float r, float T, float kappa, float rho) {
-    return (-3*kappa*rho*L_r*dr)/(4*a*c*pow(T, 3)*4*PI*pow(r, 2));
+double dT(float L_r, float r, float T, float kappa, float rho) {
+    return (-3*kappa*rho*L_r*dr)/(16*PI*a*c*T*T*T*r*r);
 };
 
-float rho(float P, float T) {
+double rho(float P, float T) {
     return (P*mu*m_H)/(T*k_b);
 };
 
-float epsilon(float T, float rho) {
-    return epsilon_0*rho*pow(T/1e6f, 4);
+double epsilon(float T, float rho) {
+    return epsilon_0*pow(X, 2)*rho*pow(T/1e6f, 4);
 };
 
-float kappa(float T, float rho) {
-    return kappa_0*(1 + X)*(Z + 0.001)*rho*pow(T, -3.5);
+double kappa(float T, float rho) {
+    return 0.34;
+    // return kappa_0*pow(rho, 1)*pow(T, -3.5f);
 };
 
-float dM(float r, float rho) {
+double dM(float r, float rho) {
     return 4*PI*pow(r, 2)*dr*rho;
 };
 
-float dL(float dM, float epsilon) {
+double dL(double dM, double epsilon) {
     return dM*epsilon;
 };

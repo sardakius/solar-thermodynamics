@@ -28,28 +28,28 @@ sun::sun() {
     shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
     shells[0].absorption = kappa(shells[0].temperature, shells[0].density);
 
-    shells[0].mass = dM(shells[0].radius, shells[0].density);
+    shells[0].mass =  4.0f / 3.0f * PI * pow(shells[0].radius, 3) * shells[0].density;
     shells[0].luminosity = dL(shells[0].mass, shells[0].energy_generation_rate);
 };
 
 void sun::simulate() {
     for (int i = 1; i <= NUM_SHELLS - 1; i++) {
-        shell p = shells[i - 1];\
+        shell p = shells[i - 1];
 
         shells[i].density = rho(p.pressure, p.temperature);
 
         float deltaM = dM(shells[i].radius, shells[i].density);
 
-        shells[i].mass = p.mass + deltaM;
-        shells[i].luminosity = p.luminosity + dL(deltaM, p.energy_generation_rate);
+        shells[i].energy_generation_rate = epsilon(p.temperature, shells[i].density);
+        shells[i].absorption = kappa(p.temperature, shells[i].density);
 
-        cout << p.luminosity << " " << dL(deltaM, p.energy_generation_rate) << " " << p.temperature << " " << dT(shells[i].luminosity, shells[i].radius, p.temperature, p.absorption, p.density) << " " << shells[i].radius << endl;
+        shells[i].mass = p.mass + deltaM;
+        shells[i].luminosity = p.luminosity + dL(deltaM, shells[i].energy_generation_rate);
 
         shells[i].pressure =  p.pressure + dP(shells[i].mass, shells[i].radius, shells[i].density);
-        shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, p.absorption, shells[i].density);
 
-        shells[i].energy_generation_rate = epsilon(shells[i].temperature, shells[i].density);
-        shells[i].absorption = kappa(shells[i].temperature, shells[i].density);
+        shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, shells[i].absorption, shells[i].density);
+        cout << shells[i].luminosity << " " << shells[i].radius << " " << p.temperature << " " << shells[i].absorption << " " << shells[i].density << " " << dT(shells[i].luminosity, shells[i].radius, p.temperature, p.absorption, shells[i].density) <<endl;
     }
 }
 
