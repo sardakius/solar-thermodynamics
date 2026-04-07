@@ -26,7 +26,7 @@ sun::sun() {
     shells[0].density = SOLAR_CORE_DENSITY;
 
     shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
-    shells[0].absorption = kappa(shells[0].temperature, shells[0].density);
+    shells[0].absorption = kappa(shells[0].radius);
 
     shells[0].mass =  4.0f / 3.0f * PI * pow(shells[0].radius, 3) * shells[0].density;
     shells[0].luminosity = dL(shells[0].mass, shells[0].energy_generation_rate);
@@ -36,12 +36,11 @@ void sun::simulate() {
     for (int i = 1; i <= NUM_SHELLS - 1; i++) {
         shell p = shells[i - 1];
 
-        shells[i].density = rho(p.pressure, p.temperature);
+        shells[i].density = rho(shells[i].radius);
 
         float deltaM = dM(shells[i].radius, shells[i].density);
-
         shells[i].energy_generation_rate = epsilon(p.temperature, shells[i].density);
-        shells[i].absorption = kappa(p.temperature, shells[i].density);
+        shells[i].absorption = kappa(shells[i].radius);
 
         shells[i].mass = p.mass + deltaM;
         shells[i].luminosity = p.luminosity + dL(deltaM, shells[i].energy_generation_rate);
@@ -49,7 +48,16 @@ void sun::simulate() {
         shells[i].pressure =  p.pressure + dP(shells[i].mass, shells[i].radius, shells[i].density);
 
         shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, shells[i].absorption, shells[i].density);
-        cout << shells[i].luminosity << " " << shells[i].radius << " " << p.temperature << " " << shells[i].absorption << " " << shells[i].density << " " << dT(shells[i].luminosity, shells[i].radius, p.temperature, p.absorption, shells[i].density) <<endl;
+        cout << "dP=" << shells[i].pressure - p.pressure 
+
+     << " dT=" << shells[i].temperature - p.temperature 
+     << " dL=" << shells[i].luminosity - p.luminosity << endl;
+        cout << shells[i].luminosity << " " << shells[i].radius << " " << shells[i].temperature << " " << shells[i].absorption << " " << shells[i].density << " " << shells[i].pressure <<endl;
+
+        if (shells[i].temperature < 0 || shells[i].pressure < 0 || shells[i].density < 0) {
+            cout << "Simulation diverged at shell " << i << endl;
+            break;
+        }
     }
 }
 

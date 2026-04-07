@@ -11,17 +11,20 @@ double dT(float L_r, float r, float T, float kappa, float rho) {
     return (-3*kappa*rho*L_r*dr)/(16*PI*a*c*T*T*T*r*r);
 };
 
-double rho(float P, float T) {
-    return (P*mu*m_H)/(T*k_b);
-};
+double rho(float radius) {
+    float r_p = radius/SOLAR_RADIUS; // radius as a fracion of solar radius
+    return fmax((519*pow(r_p, 4) - 1630*pow(r_p, 3) + 1844*pow(r_p, 2) - 889*r_p + 155)*1e3f, 1e-7f);
+}; 
 
 double epsilon(float T, float rho) {
-    return epsilon_0*pow(X, 2)*rho*pow(T/1e6f, 4);
+    return epsilon_0*rho*pow(T/1e6f, 4);
+    //return 1.07e-7f;
 };
 
-double kappa(float T, float rho) {
-    return 0.34;
-    // return kappa_0*pow(rho, 1)*pow(T, -3.5f);
+double kappa(float radius) {
+    if (radius < 0.2*SOLAR_RADIUS) { return 0.34; }
+    else if (radius < 0.7*SOLAR_RADIUS) { return 0.1; }
+    else { return 0.02; }
 };
 
 double dM(float r, float rho) {
