@@ -8,7 +8,7 @@ double dP(float M_r, float r, float rho) {
 };
 
 double dT(float L_r, float r, float T, float kappa, float rho) {
-    return (-3*kappa*rho*L_r*dr)/(16*PI*a*c*T*T*T*r*r);
+    return -fmin((3*kappa*rho*L_r*dr)/(16*PI*a*c*T*T*T*r*r), 0.1f*T);
 };
 
 double rho(float radius) {
@@ -25,6 +25,7 @@ double kappa(float radius) {
     if (radius < 0.2*SOLAR_RADIUS) { return 0.34; }
     else if (radius < 0.7*SOLAR_RADIUS) { return 0.1; }
     else { return 0.02; }
+    // return 0.1;
 };
 
 double dM(float r, float rho) {

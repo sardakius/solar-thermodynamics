@@ -33,7 +33,7 @@ sun::sun() {
 };
 
 void sun::simulate() {
-    for (int i = 1; i <= NUM_SHELLS - 1; i++) {
+    for (int i = 1; i <= (NUM_SHELLS - 1) ; i++) {
         shell p = shells[i - 1];
 
         shells[i].density = rho(shells[i].radius);
@@ -48,11 +48,12 @@ void sun::simulate() {
         shells[i].pressure =  p.pressure + dP(shells[i].mass, shells[i].radius, shells[i].density);
 
         shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, shells[i].absorption, shells[i].density);
-        cout << "dP=" << shells[i].pressure - p.pressure 
+    //     cout << "dP=" << shells[i].pressure - p.pressure 
+    //  << " dT=" << shells[i].temperature - p.temperature 
+    //  << " dL=" << shells[i].luminosity - p.luminosity << endl;
+    //     cout << shells[i].luminosity << " " << shells[i].radius << " " << shells[i].temperature << " " << shells[i].absorption << " " << shells[i].density << " " << shells[i].pressure <<endl;
 
-     << " dT=" << shells[i].temperature - p.temperature 
-     << " dL=" << shells[i].luminosity - p.luminosity << endl;
-        cout << shells[i].luminosity << " " << shells[i].radius << " " << shells[i].temperature << " " << shells[i].absorption << " " << shells[i].density << " " << shells[i].pressure <<endl;
+        cout << shells[i].radius << " " << shells[i].temperature << endl;
 
         if (shells[i].temperature < 0 || shells[i].pressure < 0 || shells[i].density < 0) {
             cout << "Simulation diverged at shell " << i << endl;
