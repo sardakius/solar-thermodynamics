@@ -39,11 +39,11 @@ double dL(double dM, double epsilon) {
 
 //eddington model
 double d_theta(double xi, double d_xi, double y) {
-    return fmax(-y/pow(xi, 2), 1e-5f)*d_xi;
+    return y/pow(xi, 2)*d_xi;
 };
 double dy(double xi, double d_xi, double theta) {
-    return fmax(pow(theta, 3)*pow(xi, 2), 1e-5f)*d_xi;
+    return -fmax(pow(theta, 3)*pow(xi, 2), 1e-5f)*d_xi;
 };
 double xi(double radius) {
-    return fmax(radius/a, 1e-5f);
+    return fmax(radius/a, 0.01);
 };

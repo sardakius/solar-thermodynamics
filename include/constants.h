@@ -4,7 +4,7 @@
 #include <math.h>
 
 // simulation parameters
-const unsigned int NUM_SHELLS = 5000;
+const unsigned int NUM_SHELLS = 1000;
 const float TIME_STEP = 1e5f; // in seconds
 
 
@@ -49,8 +49,8 @@ const float SOLAR_CORE_PRESSURE = 1.24e16f; // in Pascals
 
 const float beta = 6.58e-4f; // ratio of gas pressure to total pressure, assumed constant for simplicity
 
-const double K = PI*G*pow(SOLAR_MASS, 2/3)/ (pow(4*PI*y_1, 2/3)); // polytropic constant for n=3
-const double a = pow(K/(PI*G*pow(SOLAR_CORE_DENSITY, 2/3)), 1/2); // constant for calculating xi in the eddington model
+const double K = 3829661955; // polytropic constant for n=3
+const double a = 100771226; // constant for calculating xi in the eddington model
 
 const float dr = SOLAR_RADIUS / NUM_SHELLS; // thickness of each shell in meters
 

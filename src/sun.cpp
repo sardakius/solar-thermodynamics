@@ -41,8 +41,6 @@ sun::sun() {
     shells[NUM_SHELLS - 1].temperature = SOLAR_CORE_TEMPERATURE*theta_1; // in Kelvin
     shells[NUM_SHELLS - 1].density = SOLAR_CORE_DENSITY*pow(theta_1, 3); // in kg/m^3
     shells[NUM_SHELLS - 1].pressure = SOLAR_CORE_DENSITY*pow(theta_1, 4);
-    cout << "init" << endl;
-
 };
 
 void sun::simulate() {
@@ -82,15 +80,16 @@ void sun::simulate_eddington() {
         shells[i].xi = xi(shells[i].radius);
         double d_xi = p.xi - shells[i].xi;
 
-        shells[i].y = p.y + dy(p.xi, d_xi, p.theta);
-        shells[i].theta = p.theta + d_theta(p.xi, d_xi, p.y);
+        cout << d_xi << endl;
 
-        shells[i].temperature = SOLAR_CORE_TEMPERATURE*shells[i].theta; // in Kelvin
+        shells[i].y = fmax(p.y + dy(p.xi, d_xi, p.theta), 0);
+        shells[i].theta = fmin(p.theta + d_theta(p.xi, d_xi, p.y), 1);
+
+        shells[i].temperature = fmax(SOLAR_CORE_TEMPERATURE*shells[i].theta, 0.0); // in Kelvin
         shells[i].density = SOLAR_CORE_DENSITY*pow(shells[i].theta, 3); // in kg/m^3
         shells[i].pressure = SOLAR_CORE_DENSITY*pow(shells[i].theta, 4);
 
         shells[i].mass = dM(shells[i].radius, shells[i].density);
-        cout << "here" << endl;
     }
 };
 

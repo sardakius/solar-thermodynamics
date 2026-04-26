@@ -20,10 +20,9 @@ int main()
     Sun.simulate_eddington();
 
     shell* shells = Sun.get_shells();
-    cout << "here" << endl;cout << "init" << endl;
 
     for (int i = 0; i <= NUM_SHELLS - 1; i++) {
-        cout << shells[i].radius << " " << shells[i].temperature << endl;     
+        cout << shells[i].xi << " " << shells[i].temperature << endl;     
     }
 
 
