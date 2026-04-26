@@ -3,14 +3,20 @@
 
 struct shell
 {
-    float radius;
-    float energy_generation_rate;
-    float absorption;
-    float mass;
-    float luminosity;
-    float pressure;
-    float temperature;
-    float density;
+    // non-eddington
+    double radius;
+    double energy_generation_rate;
+    double absorption;
+    double mass;
+    double luminosity;
+    double pressure;
+    double temperature;
+    double density;
+    
+    // eddington model
+    double xi;
+    double theta;
+    double y;
 };
 
 #endif // SHELL_H

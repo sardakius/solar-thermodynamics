@@ -21,15 +21,28 @@ sun::sun() {
     }
 
     // initialize the core
-    shells[0].pressure = SOLAR_CORE_PRESSURE;
-    shells[0].temperature = SOLAR_CORE_TEMPERATURE;
-    shells[0].density = SOLAR_CORE_DENSITY;
+    // shells[0].pressure = SOLAR_CORE_PRESSURE;
+    // shells[0].temperature = SOLAR_CORE_TEMPERATURE;
+    // shells[0].density = SOLAR_CORE_DENSITY;
 
-    shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
-    shells[0].absorption = kappa(shells[0].radius);
+    // shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
+    // shells[0].absorption = kappa(shells[0].radius);
 
-    shells[0].mass =  4.0f / 3.0f * PI * pow(shells[0].radius, 3) * shells[0].density;
-    shells[0].luminosity = dL(shells[0].mass, shells[0].energy_generation_rate);
+    // shells[0].mass =  4.0f / 3.0f * PI * pow(shells[0].radius, 3) * shells[0].density;
+    // shells[0].luminosity = dL(shells[0].mass, shells[0].energy_generation_rate);
+
+    // initialize surface
+    shells[NUM_SHELLS - 1].xi = xi_1;
+    shells[NUM_SHELLS - 1].y = y_1;
+    shells[NUM_SHELLS - 1].theta = theta_1;
+
+    shells[NUM_SHELLS - 1].radius = SOLAR_RADIUS;
+    shells[NUM_SHELLS - 1].mass = SOLAR_MASS;
+    shells[NUM_SHELLS - 1].temperature = SOLAR_CORE_TEMPERATURE*theta_1; // in Kelvin
+    shells[NUM_SHELLS - 1].density = SOLAR_CORE_DENSITY*pow(theta_1, 3); // in kg/m^3
+    shells[NUM_SHELLS - 1].pressure = SOLAR_CORE_DENSITY*pow(theta_1, 4);
+    cout << "init" << endl;
+
 };
 
 void sun::simulate() {
@@ -60,8 +73,27 @@ void sun::simulate() {
             break;
         }
     }
-}
+};
+
+void sun::simulate_eddington() {
+    for (int i = NUM_SHELLS - 2; i >= 0 ; i -= 1) {
+        shell p = shells[i + 1];
+
+        shells[i].xi = xi(shells[i].radius);
+        double d_xi = p.xi - shells[i].xi;
+
+        shells[i].y = p.y + dy(p.xi, d_xi, p.theta);
+        shells[i].theta = p.theta + d_theta(p.xi, d_xi, p.y);
+
+        shells[i].temperature = SOLAR_CORE_TEMPERATURE*shells[i].theta; // in Kelvin
+        shells[i].density = SOLAR_CORE_DENSITY*pow(shells[i].theta, 3); // in kg/m^3
+        shells[i].pressure = SOLAR_CORE_DENSITY*pow(shells[i].theta, 4);
+
+        shells[i].mass = dM(shells[i].radius, shells[i].density);
+        cout << "here" << endl;
+    }
+};
 
 shell* sun::get_shells() {
     return shells;
-}
+};

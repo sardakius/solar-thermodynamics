@@ -17,13 +17,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 int main()
 {
     sun Sun = sun();
-    Sun.simulate();
+    Sun.simulate_eddington();
 
     shell* shells = Sun.get_shells();
+    cout << "here" << endl;cout << "init" << endl;
 
-    // for (int i = 0; i <= NUM_SHELLS - 1; i++) {
-    //     cout << "Radius: " << shells[i].radius << "m Pressure: " << shells[i].pressure << "Pa Temperature: " << shells[i].temperature << "K Density: " << shells[i].density << "kg/m^3 Mass: " << shells[i].mass << "kg Luminosity: " << shells[i].luminosity << "W" << endl;     
-    // }
+    for (int i = 0; i <= NUM_SHELLS - 1; i++) {
+        cout << shells[i].radius << " " << shells[i].temperature << endl;     
+    }
+
 
     if (!glfwInit())
     {

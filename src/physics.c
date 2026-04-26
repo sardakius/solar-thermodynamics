@@ -2,6 +2,7 @@
 #include <constants.h>
 #include <math.h>
 
+// non-eddington
 double dP(float M_r, float r, float rho) {
     // return (-G*M_r*rho*dr)/(pow(r, 2));
     return (-G*M_r*rho*dr)/(r*r);
@@ -34,4 +35,15 @@ double dM(float r, float rho) {
 
 double dL(double dM, double epsilon) {
     return dM*epsilon;
+};
+
+//eddington model
+double d_theta(double xi, double d_xi, double y) {
+    return fmax(-y/pow(xi, 2), 1e-5f)*d_xi;
+};
+double dy(double xi, double d_xi, double theta) {
+    return fmax(pow(theta, 3)*pow(xi, 2), 1e-5f)*d_xi;
+};
+double xi(double radius) {
+    return fmax(radius/a, 1e-5f);
 };

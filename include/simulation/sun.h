@@ -10,6 +10,7 @@ class sun {
 
         sun();
         void simulate();
+        void simulate_eddington();
 
         shell* get_shells();
 };
