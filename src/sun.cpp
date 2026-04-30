@@ -64,7 +64,6 @@ void sun::simulate() {
     //  << " dL=" << shells[i].luminosity - p.luminosity << endl;
     //     cout << shells[i].luminosity << " " << shells[i].radius << " " << shells[i].temperature << " " << shells[i].absorption << " " << shells[i].density << " " << shells[i].pressure <<endl;
 
-        cout << shells[i].radius << " " << shells[i].temperature << endl;
 
         if (shells[i].temperature < 0 || shells[i].pressure < 0 || shells[i].density < 0) {
             cout << "Simulation diverged at shell " << i << endl;
@@ -89,7 +88,8 @@ void sun::simulate_eddington() {
         shells[i].density = SOLAR_CORE_DENSITY*pow(shells[i].theta, 3); // in kg/m^3
         shells[i].pressure = SOLAR_CORE_DENSITY*pow(shells[i].theta, 4);
 
-        shells[i].mass = dM(shells[i].radius, shells[i].density);
+        shells[i].mass = p.mass - dM(shells[i].radius, shells[i].density);
+        cout << dM(shells[i].radius, shells[i].density) << endl;
     }
 };
 

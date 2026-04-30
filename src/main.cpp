@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <glad/glad.h>
 
 #define GLFW_DLL
@@ -14,6 +15,23 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
+void write_data(shell* shells) {
+    ofstream fout;
+    fout.open("data/data.csv");
+
+    // write the headers
+    if (fout.is_open()) {
+        fout << "radius,xi,mass,luminosity,pressure,temperature,density,theta,y\n";
+        for (int i = 0; i <= NUM_SHELLS - 1; i++) {
+            fout << shells[i].radius << "," << shells[i].xi << "," << shells[i].mass << "," << shells[i].luminosity << "," << shells[i].pressure << "," << shells[i].temperature << "," << shells[i].density << "," << shells[i].theta << "," << shells[i].y << "\n";    
+        }
+        cout << "Data written to data/data.csv" << endl;
+        fout.close();
+    } else {
+        cout << "Failed to open file for writing" << endl;
+    }
+}
+
 int main()
 {
     sun Sun = sun();
@@ -21,10 +39,7 @@ int main()
 
     shell* shells = Sun.get_shells();
 
-    for (int i = 0; i <= NUM_SHELLS - 1; i++) {
-        cout << shells[i].xi << " " << shells[i].temperature << endl;     
-    }
-
+    write_data(shells);
 
     if (!glfwInit())
     {
