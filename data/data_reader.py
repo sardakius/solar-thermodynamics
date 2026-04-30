@@ -10,7 +10,7 @@ if __name__ == "__main__":
         for row in reader:
             plt.plot(float(row['xi'])/(6.897), float(row['mass'])/(1.989e30), 'o')
 
-        plt.xlabel('radius (solar radii)')
-        plt.ylabel('mass (solar masses)')
+        plt.xlabel('Radius (solar radii)')
+        plt.ylabel('Mass (solar masses)')
         plt.savefig('data/profiles/mass_radius.png')
         plt.show()
