@@ -12,5 +12,5 @@ if __name__ == "__main__":
 
         plt.xlabel('Radius (solar radii)')
         plt.ylabel('Mass (solar masses)')
-        plt.savefig('data/profiles/mass_radius.png')
+        plt.savefig('data/profiles/Radius_Mass.png')
         plt.show()
