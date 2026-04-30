@@ -9,7 +9,7 @@ if __name__ == "__main__":
         reader = csv.DictReader(file)
         for row in reader:
             plt.plot(float(row['xi'])/(6.897), float(row['mass'])/(1.989e30), 'o')
-            plt.xlabel('radius (solar radii)')
-            plt.ylabel('mass (solar masses)')
-            plt.savefig('data/profiles/mass_radius.png')
-    plt.show()
+
+        plt.xlabel('radius (solar radii)')
+        plt.ylabel('mass (solar masses)')
+        plt.show()
