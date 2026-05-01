@@ -79,19 +79,21 @@ void sun::simulate_eddington() {
         shells[i].xi = xi(shells[i].radius);
         double d_xi = p.xi - shells[i].xi;
 
-        cout << d_xi << endl;
-
         shells[i].y = fmax(p.y + dy(p.xi, d_xi, p.theta), 0);
         shells[i].theta = fmin(p.theta + d_theta(p.xi, d_xi, p.y), 1);
 
         shells[i].temperature = fmax(SOLAR_CORE_TEMPERATURE*shells[i].theta, 0.0); // in Kelvin
         shells[i].density = SOLAR_CORE_DENSITY*pow(shells[i].theta, 3); // in kg/m^3
         shells[i].pressure = SOLAR_CORE_PRESSURE*pow(shells[i].theta, 4);
-
-        cout << dM(shells[i].radius, shells[i].density) << endl;
     }
 
     // now use standard physics equations to calculate luminosity and energy generation rate for each shell
+    float deltaM = dM(shells[0].radius, shells[0].density);
+    shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
+    shells[0].absorption = kappa(shells[0].radius);
+
+    shells[0].mass = deltaM;
+    shells[0].luminosity = dL(deltaM, shells[0].energy_generation_rate);
     for (int i = 1; i <= (NUM_SHELLS - 1) ; i++) {
 
         float deltaM = dM(shells[i].radius, shells[i].density);
