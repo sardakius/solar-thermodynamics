@@ -18,7 +18,7 @@ double rho(float radius) {
 }; 
 
 double epsilon(float T, float rho) {
-    return epsilon_0*rho*pow(T/1e6f, 4);
+    return epsilon_0*rho*pow(T/1e6f, 4)*pow(X, 2);
     //return 1.07e-7f;
 };
 
