@@ -21,9 +21,9 @@ void write_data(shell* shells) {
 
     // write the headers
     if (fout.is_open()) {
-        fout << "radius,xi,mass,luminosity,pressure,temperature,density,theta,y\n";
+        fout << "radius,xi,mass,luminosity,pressure,temperature,density,egr,theta,y\n";
         for (int i = 0; i <= NUM_SHELLS - 1; i++) {
-            fout << shells[i].radius << "," << shells[i].xi << "," << shells[i].mass << "," << shells[i].luminosity << "," << shells[i].pressure << "," << shells[i].temperature << "," << shells[i].density << "," << shells[i].theta << "," << shells[i].y << "\n";    
+            fout << shells[i].radius << "," << shells[i].xi << "," << shells[i].mass << "," << shells[i].luminosity << "," << shells[i].pressure << "," << shells[i].temperature << "," << shells[i].density << "," << shells[i].energy_generation_rate << "," << shells[i].theta << "," << shells[i].y << "\n";    
         }
         cout << "Data written to data/data.csv" << endl;
         fout.close();

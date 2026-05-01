@@ -86,7 +86,7 @@ void sun::simulate_eddington() {
 
         shells[i].temperature = fmax(SOLAR_CORE_TEMPERATURE*shells[i].theta, 0.0); // in Kelvin
         shells[i].density = SOLAR_CORE_DENSITY*pow(shells[i].theta, 3); // in kg/m^3
-        shells[i].pressure = SOLAR_CORE_DENSITY*pow(shells[i].theta, 4);
+        shells[i].pressure = SOLAR_CORE_PRESSURE*pow(shells[i].theta, 4);
 
         cout << dM(shells[i].radius, shells[i].density) << endl;
     }
