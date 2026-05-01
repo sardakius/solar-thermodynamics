@@ -102,7 +102,7 @@ if __name__ == "__main__":
         # Xi vs Theta, Y   
         plt.plot(xi, theta, label='θ(ξ)')
         plt.plot(xi, y, label='y(ξ)')  
-        plt.xlabel('ξ')
+        plt.xlabel('ξ/ξ₁')
         plt.ylabel('θ(ξ), y(ξ)')
         plt.title('ξ vs θ(ξ), y(ξ)')
         plt.legend()
