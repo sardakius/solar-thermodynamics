@@ -42,8 +42,13 @@ int main()
     Sun_RK4.simulate_eddington_rk4();
     shell* shells_rk4 = Sun_RK4.get_shells();
 
+    sun Sun_Convection = sun();
+    Sun_Convection.simulate_eddition_convection();
+    shell* shells_convection = Sun_Convection.get_shells();
+
     write_data(shells_euler, "data/data_euler.csv");
     write_data(shells_rk4, "data/data_rk4.csv");
+    write_data(shells_convection, "data/data_convection.csv");
 
     if (!glfwInit())
     {

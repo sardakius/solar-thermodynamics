@@ -38,7 +38,14 @@ if __name__ == "__main__":
     rk4_theta = []
     rk4_y = []
 
-
+    conv_mass = []
+    conv_luminosity = []
+    conv_pressure = []
+    conv_temperature = []
+    conv_density = []
+    conv_egr = []
+    conv_theta = []
+    conv_y = []
 
     with open('data/data_euler.csv', mode='r') as file:
         reader = csv.DictReader(file)
@@ -65,12 +72,24 @@ if __name__ == "__main__":
             rk4_egr.append(float(row['egr']))
             rk4_theta.append(float(row['theta']))
             rk4_y.append(float(row['y']))
+
+    with open('data/data_convection.csv', mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            conv_mass.append(float(row['mass']))
+            conv_luminosity.append(float(row['luminosity']))
+            conv_pressure.append(float(row['pressure']))
+            conv_temperature.append(float(row['temperature']))
+            conv_density.append(float(row['density']))
+            conv_egr.append(float(row['egr']))
+            conv_theta.append(float(row['theta']))
+            conv_y.append(float(row['y']))
         
     # Plotting
     plt.figure(0)
     # Radius vs Density
-    plt.plot(radius, euler_density, label='Euler', linestyle='dashed', color = 'orange')
-    plt.plot(radius, rk4_density, label='RK4', linestyle='solid', color = 'orange')
+    plt.plot(radius, rk4_density, label='RK4', linestyle='dashed', color = 'orange')
+    plt.plot(radius, conv_density, label='Convection', linestyle='solid', color = 'orange')
     plt.xlabel('Radius (R⊙)')   
     plt.ylabel('Density (kg/m^3)')
     plt.title('Radius vs Density')
@@ -80,8 +99,8 @@ if __name__ == "__main__":
 
     plt.figure(1)
     # Radius vs Pressure
-    plt.plot(radius, euler_pressure, label='Euler', linestyle='dashed', color = 'blue')
-    plt.plot(radius, rk4_pressure, label='RK4', linestyle='solid', color = 'blue')
+    plt.plot(radius, rk4_pressure, label='RK4', linestyle='dashed', color = 'blue')
+    plt.plot(radius, conv_pressure, label='Convection', linestyle='solid', color = 'blue')
     plt.xlabel('Radius (R⊙)')
     plt.ylabel('Pressure (Pa)')
     plt.yscale('log')
@@ -92,8 +111,8 @@ if __name__ == "__main__":
 
     plt.figure(2)
     # Radius vs Temperature
-    plt.plot(radius, euler_temperature, label='Euler', linestyle='dashed', color = 'red')
-    plt.plot(radius, rk4_temperature, label='RK4', linestyle='solid', color = 'red')
+    plt.plot(radius, rk4_temperature, label='RK4', linestyle='dashed', color = 'red')
+    plt.plot(radius, conv_temperature, label='Convection', linestyle='solid', color = 'red')
     plt.xlabel('Radius (R⊙)')
     plt.ylabel('Temperature (K)')
     plt.yscale('log')
@@ -104,8 +123,8 @@ if __name__ == "__main__":
 
     plt.figure(3)
     # Radius vs Mass
-    plt.plot(radius, euler_mass, label='Euler', linestyle='dashed', color = 'green')
-    plt.plot(radius, rk4_mass, label='RK4', linestyle='solid', color = 'green')
+    plt.plot(radius, rk4_mass, label='RK4', linestyle='dashed', color = 'green')
+    plt.plot(radius, conv_mass, label='Convection', linestyle='solid', color = 'green')
     plt.xlabel('Radius (R⊙)')
     plt.ylabel('Mass (kg)')
     plt.title('Radius vs Mass')
@@ -115,8 +134,8 @@ if __name__ == "__main__":
 
     plt.figure(4)
     # Radius vs Luminosity
-    plt.plot(radius, euler_luminosity, label='Euler', linestyle='dashed', color = 'purple')
-    plt.plot(radius, rk4_luminosity, label='RK4', linestyle='solid', color = 'purple')
+    plt.plot(radius, rk4_luminosity, label='RK4', linestyle='dashed', color = 'purple')
+    plt.plot(radius, conv_luminosity, label='Convection', linestyle='solid', color = 'purple')
     plt.xlabel('Radius (R⊙)')
     plt.ylabel('Luminosity (W)')
     plt.title('Radius vs Luminosity')
@@ -126,8 +145,8 @@ if __name__ == "__main__":
 
     plt.figure(5)
     # Radius vs Energy Generation Rate
-    plt.plot(radius, euler_egr, label='Euler', linestyle='dashed', color = 'brown')
-    plt.plot(radius, rk4_egr, label='RK4', linestyle='solid', color = 'brown')
+    plt.plot(radius, rk4_egr, label='RK4', linestyle='dashed', color = 'brown')
+    plt.plot(radius, conv_egr, label='Convection', linestyle='solid', color = 'brown')
     plt.xlabel('Radius (R⊙)')
     plt.ylabel('Energy Generation Rate (W/kg)')
     plt.title('Radius vs Energy Generation Rate')
@@ -137,12 +156,9 @@ if __name__ == "__main__":
 
     plt.figure(6)
     # Xi vs Theta, Y   
-    plt.plot(xi, euler_theta, label='θ(ξ) Euler', linestyle='dashed', color = 'cyan')
-    plt.plot(xi, euler_y, label='y(ξ) Euler', linestyle='dashed', color = 'magenta')
-
     plt.plot(xi, rk4_theta, label='θ(ξ) RK4', linestyle='solid', color = 'cyan')
     plt.plot(xi, rk4_y, label='y(ξ) RK4', linestyle='solid', color = 'magenta')
-    
+
     plt.xlabel('ξ/ξ₁')
     plt.ylabel('θ(ξ), y(ξ)')
     plt.title('ξ vs θ(ξ), y(ξ)')

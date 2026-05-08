@@ -174,6 +174,82 @@ void sun::simulate_eddington_rk4() {
     }
 };
 
+void sun::simulate_eddition_convection() {
+    // rk4 eddington model but we switch from n = 1.5 to n = 3 when convection ends, which happens at around 0.71 solar radii
+    int n = n2;
+    for (int i = NUM_SHELLS - 2; i >= 0 ; i -= 1) {
+        shell p = shells[i + 1];
+
+        shells[i].xi = xi(shells[i].radius);
+
+        if (shells[i].radius < convection_start*SOLAR_RADIUS) {
+            // switch to n = 3
+            n = n1;
+        }
+
+        shells[i].y = fmax(p.y + dy(p.xi, d_xi, p.theta), 0);
+        shells[i].theta = fmin(p.theta + d_theta(p.xi, d_xi, p.y), 1);
+
+        // simulate y and theta using rk4
+        double k1_y = dy(p.xi, d_xi, p.theta);
+        double k1_theta = d_theta(p.xi, d_xi, p.y);
+
+        double k2_y = dy(p.xi + d_xi/2, d_xi, p.theta + k1_theta/2);
+        double k2_theta = d_theta(p.xi + d_xi/2, d_xi, p.y + k1_y/2);
+
+        double k3_y = dy(p.xi + d_xi/2, d_xi, p.theta + k2_theta/2);
+        double k3_theta = d_theta(p.xi + d_xi/2, d_xi, p.y + k2_y/2);
+
+        double k4_y = dy(p.xi + d_xi, d_xi, p.theta + k3_theta);
+        double k4_theta = d_theta(p.xi + d_xi, d_xi, p.y + k3_y);
+
+        // update y and theta using rk4
+        shells[i].y = fmax(p.y + (1.0/6.0)*(k1_y + 2*k2_y + 2*k3_y + k4_y), 0);
+        shells[i].theta = fmin(p.theta + (1.0/6.0)*(k1_theta + 2*k2_theta + 2*k3_theta + k4_theta), 1);
+
+        // with y and theta, we can now calculate temperature, density, and pressure
+        shells[i].temperature = fmax(SOLAR_CORE_TEMPERATURE*shells[i].theta, 0.0); // in Kelvin
+        shells[i].density = SOLAR_CORE_DENSITY*pow(shells[i].theta, n); // in kg/m^3
+        shells[i].pressure = SOLAR_CORE_PRESSURE*pow(shells[i].theta, n + 1);
+
+    }
+
+    // initialize core using rk4 results
+    float deltaM = dM(shells[0].radius, shells[0].density);
+    shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
+    shells[0].absorption = kappa(shells[0].radius);
+
+    shells[0].mass = deltaM;
+    shells[0].luminosity = dL(deltaM, shells[0].energy_generation_rate);
+
+    // now starting from the inside and going outwards, use standard physics equations to calculate luminosity and energy generation rate for each shell
+    for (int i = 1; i <= (NUM_SHELLS - 1) ; i++) {
+        shell p = shells[i - 1];
+
+        // not differential so we don't use rk4 here
+        shells[i].energy_generation_rate = epsilon(shells[i].temperature, shells[i].density);
+        shells[i].absorption = kappa(shells[i].radius);
+
+        // mass
+        double k1_M = dM(p.radius, p.density);
+        double k2_M = dM(p.radius + dr/2, 0.5*p.density + 0.5*shells[i].density ); // we can also use density at the midpoint for better accuracy, but for simplicity we'll just use the density at the beginning of the interval
+        double k3_M = k2_M; // since dM is not a function of mass, we can just reuse k2_M for k3_M
+        double k4_M = dM(p.radius + dr, p.density);
+
+        double deltaM = (1.0/6.0)*(k1_M + 2*k2_M + 2*k3_M + k4_M);
+        shells[i].mass = p.mass + deltaM;
+
+        // luminosity
+        double k1_L = dL(k1_M, p.energy_generation_rate);
+        double k2_L = dL(k2_M, 0.5*p.energy_generation_rate + 0.5*shells[i].energy_generation_rate);
+        double k3_L = k2_L; // since dL is not a function of luminosity, we can just reuse k2_L for k3_L
+        double k4_L = dL(k4_M, epsilon(shells[i].temperature, shells[i].density));
+
+        double deltaL = (1.0/6.0)*(k1_L + 2*k2_L + 2*k3_L + k4_L);
+        shells[i].luminosity = p.luminosity + deltaL;
+    }
+}
+
 shell* sun::get_shells() {
     return shells;
 };
