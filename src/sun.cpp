@@ -43,7 +43,7 @@ sun::sun() {
     shells[NUM_SHELLS - 1].pressure = SOLAR_CORE_DENSITY*pow(theta_1, 4);
 };
 
-void sun::simulate() {
+void sun::simulate_ssm() {
     for (int i = 1; i <= (NUM_SHELLS - 1) ; i++) {
         shell p = shells[i - 1];
 
@@ -156,8 +156,8 @@ void sun::simulate_eddington_rk4() {
 
         // mass
         double k1_M = dM(p.radius, p.density);
-        double k2_M = dM(p.radius + dr/2, p.density );
-        double k3_M = dM(p.radius + dr/2, p.density);
+        double k2_M = dM(p.radius + dr/2, 0.5*p.density + 0.5*shells[i].density ); // we can also use density at the midpoint for better accuracy, but for simplicity we'll just use the density at the beginning of the interval
+        double k3_M = k2_M; // since dM is not a function of mass, we can just reuse k2_M for k3_M
         double k4_M = dM(p.radius + dr, p.density);
 
         double deltaM = (1.0/6.0)*(k1_M + 2*k2_M + 2*k3_M + k4_M);
@@ -165,9 +165,9 @@ void sun::simulate_eddington_rk4() {
 
         // luminosity
         double k1_L = dL(k1_M, p.energy_generation_rate);
-        double k2_L = dL(k2_M, shells[i].energy_generation_rate);
-        double k3_L = dL(k3_M, shells[i].energy_generation_rate);
-        double k4_L = dL(k4_M, epsilon(shells[i + 1].temperature, shells[i + 1].density));
+        double k2_L = dL(k2_M, 0.5*p.energy_generation_rate + 0.5*shells[i].energy_generation_rate);
+        double k3_L = k2_L; // since dL is not a function of luminosity, we can just reuse k2_L for k3_L
+        double k4_L = dL(k4_M, epsilon(shells[i].temperature, shells[i].density));
 
         double deltaL = (1.0/6.0)*(k1_L + 2*k2_L + 2*k3_L + k4_L);
         shells[i].luminosity = p.luminosity + deltaL;

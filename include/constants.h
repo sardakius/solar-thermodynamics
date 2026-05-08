@@ -4,7 +4,7 @@
 #include <math.h>
 
 // simulation parameters
-const unsigned int NUM_SHELLS = 100;
+const unsigned int NUM_SHELLS = 1000;
 const float TIME_STEP = 1e5f; // in seconds
 
 

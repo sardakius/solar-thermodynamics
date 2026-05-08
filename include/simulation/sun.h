@@ -9,7 +9,7 @@ class sun {
         shell shells[NUM_SHELLS];
 
         sun();
-        void simulate();
+        void simulate_ssm();
         void simulate_eddington_euler();
         void simulate_eddington_rk4();
 
