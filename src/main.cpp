@@ -15,9 +15,9 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void write_data(shell* shells) {
+void write_data(shell* shells, string filename) {
     ofstream fout;
-    fout.open("data/data.csv");
+    fout.open(filename);
 
     // write the headers
     if (fout.is_open()) {
@@ -25,7 +25,7 @@ void write_data(shell* shells) {
         for (int i = 0; i <= NUM_SHELLS - 1; i++) {
             fout << shells[i].radius << "," << shells[i].xi << "," << shells[i].mass << "," << shells[i].luminosity << "," << shells[i].pressure << "," << shells[i].temperature << "," << shells[i].density << "," << shells[i].energy_generation_rate << "," << shells[i].theta << "," << shells[i].y << "\n";    
         }
-        cout << "Data written to data/data.csv" << endl;
+        cout << "Data written to " << filename << endl;
         fout.close();
     } else {
         cout << "Failed to open file for writing" << endl;
@@ -34,12 +34,16 @@ void write_data(shell* shells) {
 
 int main()
 {
-    sun Sun = sun();
-    Sun.simulate_eddington();
+    sun Sun_Euler = sun();
+    Sun_Euler.simulate_eddington_euler();
+    shell* shells_euler = Sun_Euler.get_shells();
 
-    shell* shells = Sun.get_shells();
+    sun Sun_RK4 = sun();
+    Sun_RK4.simulate_eddington_rk4();
+    shell* shells_rk4 = Sun_RK4.get_shells();
 
-    write_data(shells);
+    write_data(shells_euler, "data/data_euler.csv");
+    write_data(shells_rk4, "data/data_rk4.csv");
 
     if (!glfwInit())
     {

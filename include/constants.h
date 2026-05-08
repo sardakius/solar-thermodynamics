@@ -53,6 +53,7 @@ const double K = 3829661955; // polytropic constant for n=3
 const double a = 100771226; // constant for calculating xi in the eddington model
 
 const float dr = SOLAR_RADIUS / NUM_SHELLS; // thickness of each shell in meters
+const float d_xi = xi_1 / NUM_SHELLS; // step size for xi in the eddington model
 
 
 #endif // CONSTANTS_H

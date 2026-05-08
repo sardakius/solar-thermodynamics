@@ -10,7 +10,8 @@ class sun {
 
         sun();
         void simulate();
-        void simulate_eddington();
+        void simulate_eddington_euler();
+        void simulate_eddington_rk4();
 
         shell* get_shells();
 };
