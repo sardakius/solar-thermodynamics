@@ -33,6 +33,11 @@ int main()
     Sun_RK4.simulate_eddington_rk4();
     shell* shells_rk4 = Sun_RK4.get_shells();
 
+    sun Sun_SSM = sun();
+    Sun_SSM.simulate_ssm();
+    shell* shells_ssm = Sun_SSM.get_shells();
+
     write_data(shells_euler, "data/data_euler.csv");
     write_data(shells_rk4, "data/data_rk4.csv");
+    write_data(shells_ssm, "data/data_ssm.csv");
 }

@@ -19,9 +19,9 @@ const float SOLAR_RADIUS = 6.96e8f; // in meters
 const float SOLAR_MASS = 1.989e30f; // in kilograms
 const float SOLAR_LUMINOSITY = 3.828e26f; // in watts
 
-// const double SOLAR_CORE_TEMPERATURE = 1.5e7f; // in Kelvin
-// const double SOLAR_CORE_DENSITY = 1.62e5f; // in kg/m^3
-// const double SOLAR_CORE_PRESSURE = 2.477e16f; // in Pascals
+const double SSM_SOLAR_CORE_TEMPERATURE = 1.5e7f; // in Kelvin
+const double SSM_SOLAR_CORE_DENSITY = 1.62e5f; // in kg/m^3
+const double SSM_SOLAR_CORE_PRESSURE = 2.477e16f; // in Pascals
 
 const float mu = 0.61f; // mean molecular weight for fully ionized gas
 const float X = 0.7438f; // hydrogen mass fraction

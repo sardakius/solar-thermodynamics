@@ -37,13 +37,16 @@ sun::sun() {
     shells[NUM_SHELLS - 1].theta = theta_1;
 
     shells[NUM_SHELLS - 1].radius = SOLAR_RADIUS;
-    // shells[NUM_SHELLS - 1].mass = SOLAR_MASS;
     shells[NUM_SHELLS - 1].temperature = SOLAR_CORE_TEMPERATURE*theta_1; // in Kelvin
     shells[NUM_SHELLS - 1].density = SOLAR_CORE_DENSITY*pow(theta_1, 3); // in kg/m^3
-    shells[NUM_SHELLS - 1].pressure = SOLAR_CORE_DENSITY*pow(theta_1, 4);
+    shells[NUM_SHELLS - 1].pressure = SOLAR_CORE_PRESSURE*pow(theta_1, 4);
 };
 
 void sun::simulate_ssm() {
+    shells[0].temperature = SSM_SOLAR_CORE_TEMPERATURE; // in Kelvin
+    shells[0].density = SSM_SOLAR_CORE_DENSITY; // in kg/m^3
+    shells[0].pressure = SSM_SOLAR_CORE_PRESSURE;
+
     for (int i = 1; i <= (NUM_SHELLS - 1) ; i++) {
         shell p = shells[i - 1];
 
@@ -59,16 +62,6 @@ void sun::simulate_ssm() {
         shells[i].pressure =  p.pressure + dP(shells[i].mass, shells[i].radius, shells[i].density);
 
         shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, shells[i].absorption, shells[i].density);
-    //     cout << "dP=" << shells[i].pressure - p.pressure 
-    //  << " dT=" << shells[i].temperature - p.temperature 
-    //  << " dL=" << shells[i].luminosity - p.luminosity << endl;
-    //     cout << shells[i].luminosity << " " << shells[i].radius << " " << shells[i].temperature << " " << shells[i].absorption << " " << shells[i].density << " " << shells[i].pressure <<endl;
-
-
-        if (shells[i].temperature < 0 || shells[i].pressure < 0 || shells[i].density < 0) {
-            cout << "Simulation diverged at shell " << i << endl;
-            break;
-        }
     }
 };
 

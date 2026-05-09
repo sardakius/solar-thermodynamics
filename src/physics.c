@@ -23,10 +23,10 @@ double epsilon(float T, float rho) {
 };
 
 double kappa(float radius) {
-    if (radius < 0.2*SOLAR_RADIUS) { return 0.34; }
-    else if (radius < 0.7*SOLAR_RADIUS) { return 0.1; }
-    else { return 0.02; }
-    // return 0.1;
+        // if (radius < 0.2*SOLAR_RADIUS) { return 0.34; }
+        // else if (radius < 0.7*SOLAR_RADIUS) { return 0.1; }
+        // else { return 0.02; }
+    return 0.1;
 };
 
 double dM(float r, float rho) {

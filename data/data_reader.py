@@ -35,6 +35,13 @@ if __name__ == "__main__":
     rk4_theta = []
     rk4_y = []
 
+    ssm_mass = []
+    ssm_luminosity = []
+    ssm_pressure = []
+    ssm_temperature = []
+    ssm_density = []
+    ssm_egr = []
+
     with open('data/data_euler.csv', mode='r') as file:
         reader = csv.DictReader(file)
         for row in reader:
@@ -60,6 +67,16 @@ if __name__ == "__main__":
             rk4_egr.append(float(row['egr']))
             rk4_theta.append(float(row['theta']))
             rk4_y.append(float(row['y']))
+    
+    with open('data/data_ssm.csv', mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            ssm_mass.append(float(row['mass']))
+            ssm_luminosity.append(float(row['luminosity']))
+            ssm_pressure.append(float(row['pressure']))
+            ssm_temperature.append(float(row['temperature']))
+            ssm_density.append(float(row['density']))
+            ssm_egr.append(float(row['egr']))
 
     # Plotting
     plt.figure(0)
@@ -142,5 +159,7 @@ if __name__ == "__main__":
     plt.legend()
 
     plt.savefig('data/profiles/xi_theta_y.png')
+    
+    plt.show()
 
 
