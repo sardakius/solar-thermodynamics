@@ -5,14 +5,6 @@
 
 // simulation parameters
 const unsigned int NUM_SHELLS = 500;
-const float TIME_STEP = 1e5f; // in seconds
-
-
-// Dimensions
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-const unsigned int RADIUS = 250;
-const unsigned int DEPTH = RADIUS / NUM_SHELLS; // in pixels, thickness of each shell in the visualization
 
 // Physical constants
 const float G = 6.67430e-11f; // gravitational constant in m^3 kg^-1 s^-2

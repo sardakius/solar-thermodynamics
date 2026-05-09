@@ -13,9 +13,6 @@ P_core = 2.5e16
 T_core = 1.57e7
 rho_core = 1.62e5 
 
-euler = True
-rk4 = True
-
 if __name__ == "__main__":
     radius = []
     xi = []

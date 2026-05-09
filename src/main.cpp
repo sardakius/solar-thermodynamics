@@ -1,19 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include <glad/glad.h>
-
-#define GLFW_DLL
-#include <GLFW/glfw3.h>
-
+#include <simulation/physics.h>
 #include <simulation/sun.h>
 #include <simulation/shell.h>
 
 using namespace std; 
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}
 
 void write_data(shell* shells, string filename) {
     ofstream fout;
