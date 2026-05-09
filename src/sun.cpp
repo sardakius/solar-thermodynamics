@@ -182,8 +182,10 @@ void sun::simulate_eddition_convection() {
 
         shells[i].xi = xi(shells[i].radius);
 
-        if (shells[i].radius < convection_start*SOLAR_RADIUS) {
-            // switch to n = 3
+        if (shells[i].radius < convective_start*SOLAR_RADIUS && shells[i].radius > radiative_end*SOLAR_RADIUS) {
+            // switch to some intermediate n in the transition region between radiative and convective zones to avoid discontinuity
+            n = n1 + (n2 - n1) * (convective_start*SOLAR_RADIUS - shells[i].radius) / ((convective_start - radiative_end));
+        } else if (shells[i].radius <= radiative_end*SOLAR_RADIUS) {
             n = n1;
         }
 

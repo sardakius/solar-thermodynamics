@@ -52,9 +52,10 @@ const float beta = 6.58e-4f; // ratio of gas pressure to total pressure, assumed
 const double K = 3829661955; // polytropic constant for n=3
 const double a = 100771226; // constant for calculating xi in the eddington model
 
-const double convection_start = 0.68; // fraction of solar radius at which convection starts
-const double n1 = 3; // polytropic index for the radiative zone
-const double n2 = 2.6; // polytropic index for the convective zone
+const double convective_start = 0.71;
+const double radiative_end = 0.68;
+const double n1 = 3.94; // polytropic index for the radiative zone
+const double n2 = 1.58; // polytropic index for the convective zone
 
 const float dr = SOLAR_RADIUS / NUM_SHELLS; // thickness of each shell in meters
 const float d_xi = xi_1 / NUM_SHELLS; // step size for xi in the eddington model
