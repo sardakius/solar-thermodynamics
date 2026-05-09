@@ -12,8 +12,8 @@ double dL(double dM, double epsilon);
 
 //eddington model
 double d_theta(double xi, double d_xi, double y);
-double dy(double xi, double d_xi, double theta);
-double xi(double radius);
+double dy(double xi, double d_xi, double theta, double n);
+double xi(double radius, double a);
 
 
 

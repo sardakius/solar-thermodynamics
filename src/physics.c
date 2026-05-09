@@ -9,7 +9,7 @@ double dP(float M_r, float r, float rho) {
 };
 
 double dT(float L_r, float r, float T, float kappa, float rho) {
-    return -fmin((3*kappa*rho*L_r*dr)/(16*PI*a*c*T*T*T*r*r), 0.1f*T);
+    return -fmin((3*kappa*rho*L_r*dr)/(16*PI*c*T*T*T*r*r), 0.1f*T);
 };
 
 double rho(float radius) {
@@ -37,13 +37,13 @@ double dL(double dM, double epsilon) {
     return dM*epsilon;
 };
 
-//eddington model
+//eddington model (d_theta and dy are negative because we are integrating from the surface to the core, so we are going in the negative direction of xi)
 double d_theta(double xi, double d_xi, double y) {
     return y/pow(xi, 2)*d_xi;
 };
-double dy(double xi, double d_xi, double theta) {
-    return -fmax(pow(theta, 3)*pow(xi, 2), 1e-5f)*d_xi;
+double dy(double xi, double d_xi, double theta, double n) {
+    return -fmax(pow(theta, n)*pow(xi, 2), 1e-5f)*d_xi;
 };
-double xi(double radius) {
+double xi(double radius, double a) {
     return fmax(radius/a, 0.01);
 };

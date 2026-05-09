@@ -4,7 +4,7 @@
 #include <math.h>
 
 // simulation parameters
-const unsigned int NUM_SHELLS = 1000;
+const unsigned int NUM_SHELLS = 500;
 const float TIME_STEP = 1e5f; // in seconds
 
 
@@ -27,9 +27,9 @@ const float SOLAR_RADIUS = 6.96e8f; // in meters
 const float SOLAR_MASS = 1.989e30f; // in kilograms
 const float SOLAR_LUMINOSITY = 3.828e26f; // in watts
 
-const float SOLAR_CORE_TEMPERATURE = 1.5e7f; // in Kelvin
-const float SOLAR_CORE_DENSITY = 1.62e5f; // in kg/m^3
-const float SOLAR_CORE_PRESSURE = 2.5e16f; // in Pascals
+// const double SOLAR_CORE_TEMPERATURE = 1.5e7f; // in Kelvin
+// const double SOLAR_CORE_DENSITY = 1.62e5f; // in kg/m^3
+// const double SOLAR_CORE_PRESSURE = 2.477e16f; // in Pascals
 
 const float mu = 0.61f; // mean molecular weight for fully ionized gas
 const float X = 0.7438f; // hydrogen mass fraction
@@ -43,19 +43,15 @@ const float xi_1 = 6.897f; // the dimensional radius of the sun
 const float y_1 = 2.018f; // the dimensional mass of the sun
 const float theta_1 = 0.0f; // the dimensional density at the surface
 
-// const float SOLAR_CORE_TEMPERATURE = 1.34e7f; // in Kelvin
-// const float SOLAR_CORE_DENSITY = 7.63e4f; // in kg/m^3
-// const float SOLAR_CORE_PRESSURE = 1.24e16f; // in Pascals
+const float SOLAR_CORE_TEMPERATURE = 1.34e7f; // in Kelvin
+const float SOLAR_CORE_DENSITY = 7.63e4f; // in kg/m^3
+const float SOLAR_CORE_PRESSURE = 1.24e16f; // in Pascals
 
 const float beta = 6.58e-4f; // ratio of gas pressure to total pressure, assumed constant for simplicity
 
 const double K = 3829661955; // polytropic constant for n=3
 const double a = 100771226; // constant for calculating xi in the eddington model
-
-const double convective_start = 0.71;
-const double radiative_end = 0.68;
-const double n1 = 3.94; // polytropic index for the radiative zone
-const double n2 = 1.58; // polytropic index for the convective zone
+const double n= 3.0; // polytropic index for the radiative zone
 
 const float dr = SOLAR_RADIUS / NUM_SHELLS; // thickness of each shell in meters
 const float d_xi = xi_1 / NUM_SHELLS; // step size for xi in the eddington model
