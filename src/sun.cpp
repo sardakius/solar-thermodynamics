@@ -50,7 +50,7 @@ void sun::simulate_ssm() {
     for (int i = 1; i <= (NUM_SHELLS - 1) ; i++) {
         shell p = shells[i - 1];
 
-        shells[i].density = rho(shells[i].radius);
+        shells[i].density = rho(p.temperature, p.pressure);
 
         float deltaM = dM(shells[i].radius, shells[i].density);
         shells[i].energy_generation_rate = epsilon(p.temperature, shells[i].density);

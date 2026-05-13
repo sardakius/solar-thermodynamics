@@ -51,10 +51,11 @@ def parseargs(argparse):
 
     return data_name, data_index, differential
 
-def draw_plot(plt, n, radius, rk4_data, euler_data, color, data_name, unit, logscale):
+def draw_plot(plt, n, radius, rk4_data, euler_data, ssm_data, color, data_name, unit, logscale):
     plt.figure(n)
     plt.plot(radius, rk4_data, label='RK4', color=color, linestyle='solid')
     plt.plot(radius, euler_data, label='Euler', color=color, linestyle='dashed')
+    # plt.plot(radius, ssm_data, label='SSM', color=color, linestyle='dotted')
     plt.xlabel('Radius (R⊙)')
     plt.ylabel(f'{data_name} ({unit})')
     plt.title(f'Radius vs {data_name}')

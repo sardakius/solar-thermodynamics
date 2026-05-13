@@ -39,6 +39,13 @@ if __name__ == "__main__":
     rk4_theta = []
     rk4_y = []
 
+    ssm_mass = []
+    ssm_luminosity = []
+    ssm_pressure = []
+    ssm_temperature = []
+    ssm_density = []
+    ssm_egr = []
+
     with open('data/data_euler.csv', mode='r') as file:
         reader = csv.DictReader(file)
         for row in reader:
@@ -50,14 +57,19 @@ if __name__ == "__main__":
         reader = csv.DictReader(file)
         for row in reader:
             add_to_arrs(row, rk4_mass, rk4_luminosity, rk4_pressure, rk4_temperature, rk4_density, rk4_egr, rk4_theta, rk4_y)
-
+    
+    with open('data/data_ssm.csv', mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            add_to_arrs(row, ssm_mass, ssm_luminosity, ssm_pressure, ssm_temperature, ssm_density, ssm_egr, [], [])
+    
     # Plotting
-    draw_plot(plt, 0, radius, rk4_density, euler_density, "orange", "Density", "kg/m³", True)
-    draw_plot(plt, 1, radius, rk4_pressure, euler_pressure, "blue", "Pressure", "Pa", True)
-    draw_plot(plt, 2, radius, rk4_temperature, euler_temperature, "red", "Temperature", "K", False)
-    draw_plot(plt, 3, radius, rk4_mass, euler_mass, "green", "Mass", "kg", False)
-    draw_plot(plt, 4, radius, rk4_luminosity, euler_luminosity, "purple", "Luminosity", "W", False)
-    draw_plot(plt, 5, radius, rk4_egr, euler_egr, "pink", "Energy Generation Rate", "W/kg", False)
+    draw_plot(plt, 0, radius, rk4_density, euler_density, ssm_density, "orange", "Density", "kg/m³", True)
+    draw_plot(plt, 1, radius, rk4_pressure, euler_pressure, ssm_pressure, "blue", "Pressure", "Pa", True)
+    draw_plot(plt, 2, radius, rk4_temperature, euler_temperature, ssm_temperature, "red", "Temperature", "K", False)
+    draw_plot(plt, 3, radius, rk4_mass, euler_mass, ssm_mass, "green", "Mass", "kg", False)
+    draw_plot(plt, 4, radius, rk4_luminosity, euler_luminosity, ssm_luminosity, "purple", "Luminosity", "W", False)
+    draw_plot(plt, 5, radius, rk4_egr, euler_egr, ssm_egr, "pink", "Energy Generation Rate", "W/kg", False)
 
     # Xi vs Theta, Y   
     plt.figure(6)

@@ -2,12 +2,13 @@
 #define PHYSICS_H
 
 // non-eddington
-double dP(float M_r, float r, float rho);
-double dT(float L_r, float r, float T, float kappa, float rho);
-double rho(float radius);
-double epsilon(float T, float rho);
-double kappa(float radius);
-double dM(float r, float rho);
+double dP(double M_r, double r, double rho);
+double dT(double L_r, double r, double T, double kappa, double rho);
+double rho_approx(double radius);
+double rho(double T, double P);
+double epsilon(double T, double rho);
+double kappa(double radius);
+double dM(double r, double rho);
 double dL(double dM, double epsilon);
 
 //eddington model

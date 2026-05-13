@@ -3,33 +3,37 @@
 #include <math.h>
 
 // non-eddington
-double dP(float M_r, float r, float rho) {
+double dP(double M_r, double r, double rho) {
     // return (-G*M_r*rho*dr)/(pow(r, 2));
     return (-G*M_r*rho*dr)/(r*r);
 };
 
-double dT(float L_r, float r, float T, float kappa, float rho) {
-    return -fmin((3*kappa*rho*L_r*dr)/(16*PI*c*T*T*T*r*r), 0.1f*T);
+double dT(double L_r, double r, double T, double kappa, double rho) {
+    return -fmin((3*kappa*rho*L_r*dr)/(16*PI*c*T*T*T*r*r*14.56e-16), 0.1f*T);
 };
 
-double rho(float radius) {
-    float r_p = radius/SOLAR_RADIUS; // radius as a fracion of solar radius
-    return fmax((519*pow(r_p, 4) - 1630*pow(r_p, 3) + 1844*pow(r_p, 2) - 889*r_p + 155)*1e3f, 1e-7f);
+double rho_approx(double radius) {
+    double r_p = radius/SOLAR_RADIUS;
+    return fmax((519*pow(r_p, 4) - 1630*pow(r_p, 3) + 1844*pow(r_p, 2) - 889*r_p + 155)*1e3, 1e-7);  
 }; 
 
-double epsilon(float T, float rho) {
+double rho(double T, double P) {
+    return (P*mu*m_H)/(k_b*T);
+};
+
+double epsilon(double T, double rho) {
     return epsilon_0*rho*pow(T/1e6f, 4)*pow(X, 2);
     //return 1.07e-7f;
 };
 
-double kappa(float radius) {
+double kappa(double radius) {
         // if (radius < 0.2*SOLAR_RADIUS) { return 0.34; }
         // else if (radius < 0.7*SOLAR_RADIUS) { return 0.1; }
         // else { return 0.02; }
     return 0.1;
 };
 
-double dM(float r, float rho) {
+double dM(double r, double rho) {
     return 4*PI*pow(r, 2)*dr*rho;
 };
 
