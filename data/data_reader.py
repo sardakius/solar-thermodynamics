@@ -52,12 +52,12 @@ if __name__ == "__main__":
             add_to_arrs(row, rk4_mass, rk4_luminosity, rk4_pressure, rk4_temperature, rk4_density, rk4_egr, rk4_theta, rk4_y)
 
     # Plotting
-    draw_plot(plt, 0, radius, rk4_density, euler_density, "orange", "Density")
-    draw_plot(plt, 1, radius, rk4_pressure, euler_pressure, "blue", "Pressure")
-    draw_plot(plt, 2, radius, rk4_temperature, euler_temperature, "red", "Temperature")
-    draw_plot(plt, 3, radius, rk4_mass, euler_mass, "green", "Mass")
-    draw_plot(plt, 4, radius, rk4_luminosity, euler_luminosity, "purple", "Luminosity")
-    draw_plot(plt, 5, radius, rk4_egr, euler_egr, "pink", "Energy Generation Rate")
+    draw_plot(plt, 0, radius, rk4_density, euler_density, "orange", "Density", "kg/m³")
+    draw_plot(plt, 1, radius, rk4_pressure, euler_pressure, "blue", "Pressure", "Pa")
+    draw_plot(plt, 2, radius, rk4_temperature, euler_temperature, "red", "Temperature", "K")
+    draw_plot(plt, 3, radius, rk4_mass, euler_mass, "green", "Mass", "kg")
+    draw_plot(plt, 4, radius, rk4_luminosity, euler_luminosity, "purple", "Luminosity", "W")
+    draw_plot(plt, 5, radius, rk4_egr, euler_egr, "pink", "Energy Generation Rate", "W/kg")
 
     # Xi vs Theta, Y   
     plt.figure(6)

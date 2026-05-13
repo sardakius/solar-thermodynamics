@@ -43,12 +43,12 @@ def parseargs(argparse):
 
     return data_name
 
-def draw_plot(plt, n, radius, rk4_data, euler_data, color, data_name):
+def draw_plot(plt, n, radius, rk4_data, euler_data, color, data_name, unit):
     plt.figure(n)
     plt.plot(radius, rk4_data, label='RK4', color=color, linestyle='solid')
     plt.plot(radius, euler_data, label='Euler', color=color, linestyle='dashed')
     plt.xlabel('Radius (R⊙)')
-    plt.ylabel(data_name)
+    plt.ylabel(f'{data_name} ({unit})')
     plt.title(f'Radius vs {data_name}')
     plt.legend()
     plt.savefig(f'data/profiles/radius_{data_name.lower().replace(" ", "_")}.png')
