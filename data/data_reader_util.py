@@ -24,24 +24,32 @@ def parseargs(argparse):
     parser.add_argument('-d', '--density', action='store_true')
     parser.add_argument('-p', '--pressure', action='store_true')
     parser.add_argument('-e', '--egr', action='store_true')
-
+    parser.add_argument('-m', '--mass', action='store_true')
+    parser.add_argument('-l', '--luminosity', action='store_true')
+    
     args = parser.parse_args()
 
     mapping = {
-        "temperature": "Temperature",
-        "density": "Density",
-        "pressure": "Pressure",
-        "egr": "Energy Generation Rate"
+        "temperature": ["Temperature", 0, False],
+        "density": ["Density", 0, False],
+        "pressure": ["Pressure", 0, False],
+        "egr": ["Energy Generation Rate", 0, False],
+        "mass": ["Mass", 499, True],
+        "luminosity": ["Luminosity", 499, True]
     }
 
     active_args = [name for name, value in vars(args).items() if value]
 
     if len(active_args) == 1:
-        data_name = mapping[active_args[0]]
+        data_name = mapping[active_args[0]][0]
+        data_index = mapping[active_args[0]][1]
+        differential = mapping[active_args[0]][2]
     else:
         data_name = "Temperature"
+        data_index = 0
+        differential = False
 
-    return data_name
+    return data_name, data_index, differential
 
 def draw_plot(plt, n, radius, rk4_data, euler_data, color, data_name, unit, logscale):
     plt.figure(n)

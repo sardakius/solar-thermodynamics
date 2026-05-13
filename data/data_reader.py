@@ -80,15 +80,15 @@ screen_size = (1100, 800)
 screen = pg.display.set_mode(screen_size)
 pg.display.set_caption("The Sun")
 
-data_name = parseargs(argparse)
-data_set = rk4_temperature if data_name == "Temperature" else rk4_density if data_name == "Density" else rk4_pressure if data_name == "Pressure" else rk4_egr if data_name == "Energy Generation Rate" else rk4_temperature
+data_name, data_index, invert = parseargs(argparse)
+data_set = rk4_temperature if data_name == "Temperature" else rk4_density if data_name == "Density" else rk4_pressure if data_name == "Pressure" else rk4_egr if data_name == "Energy Generation Rate" else rk4_mass if data_name == "Mass" else rk4_luminosity if data_name == "Luminosity" else rk4_temperature
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 center_x, center_y = screen_size[0] // 2, screen_size[1] // 2
 
-k = 1.5 # scaling factor to fit the circles within the window
+k = 1.45 # scaling factor to fit the circles within the window
 cnv_rad = 1.0 * 500/k # convective zone radius in pixels
 rad_rad = 0.7 * 500/k # radiative zone radius in pixels
 core_rad = 0.25 * 500/k # core radius in pixels
@@ -115,7 +115,12 @@ while running:
 
     # draw cross-section shells with colors based on the data values
     for radius in range(1, 501):
-        pg.draw.circle(screen, get_mpl_color(plt, data_set[radius-1]/data_set[0]), (center_x, center_y), radius/1.5, width=1)
+        if invert:
+            value = 1 - data_set[radius - 1]/data_set[499] if radius > 1 else 0
+        else:
+            value = data_set[radius-1]/data_set[0] # normalize to 0-1 range based on central value
+
+        pg.draw.circle(screen, get_mpl_color(plt, value), (center_x, center_y), radius/1.5, width=1)
 
     # core, radiative zone, convective zone boundaries
     pg.draw.circle(screen, WHITE, (center_x, center_y), core_rad, width=2)
