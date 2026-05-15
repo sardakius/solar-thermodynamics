@@ -9,7 +9,7 @@ double dP(double M_r, double r, double rho) {
 };
 
 double dT(double L_r, double r, double T, double kappa, double rho) {
-    return -fmin((3*kappa*rho*L_r*dr)/(16*PI*c*T*T*T*r*r*14.56e-16), 0.1f*T);
+    return -fmin((3*kappa*rho*L_r*dr)/(16*PI*c*T*T*T*r*r*7.56e-16), 0.1f*T);
 };
 
 double rho_approx(double radius) {
@@ -26,11 +26,11 @@ double epsilon(double T, double rho) {
     //return 1.07e-7f;
 };
 
-double kappa(double radius) {
-        // if (radius < 0.2*SOLAR_RADIUS) { return 0.34; }
-        // else if (radius < 0.7*SOLAR_RADIUS) { return 0.1; }
+double kappa(double rho, double T) {
+        // if (rho < 0.2*SOLAR_RADIUS) { return 0.34; }
+        // else if (rho < 0.7*SOLAR_RADIUS) { return 0.1; }
         // else { return 0.02; }
-    return 0.1;
+    return kappa_0*pow(rho, 0.5f)*pow(T, -3.5f);
 };
 
 double dM(double r, double rho) {

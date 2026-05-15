@@ -28,7 +28,7 @@ const float X = 0.7438f; // hydrogen mass fraction
 const float Z = 0.0139f; // metallicity (helium and heavier elements)
 
 const float epsilon_0 = 1.08e-12f; // energy generation rate at the core in W/kg
-const float kappa_0 = 4e21f; // opacity constant in m^2/kg
+const float kappa_0 = 0.0348; // opacity constant in m^2/kg
 
 // eddington solar model constants
 const float xi_1 = 6.897f; // the dimensional radius of the sun

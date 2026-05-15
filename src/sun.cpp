@@ -52,16 +52,16 @@ void sun::simulate_ssm() {
 
         shells[i].density = rho(p.temperature, p.pressure);
 
-        float deltaM = dM(shells[i].radius, shells[i].density);
-        shells[i].energy_generation_rate = epsilon(p.temperature, shells[i].density);
-        shells[i].absorption = kappa(shells[i].radius);
+        float deltaM = dM(shells[i].radius, p.density);
+        shells[i].energy_generation_rate = epsilon(p.temperature, p.density);
+        shells[i].absorption = kappa(p.density, p.temperature);
 
         shells[i].mass = p.mass + deltaM;
-        shells[i].luminosity = p.luminosity + dL(deltaM, shells[i].energy_generation_rate);
+        shells[i].luminosity = p.luminosity + dL(deltaM, p.energy_generation_rate);
 
-        shells[i].pressure =  p.pressure + dP(shells[i].mass, shells[i].radius, shells[i].density);
+        shells[i].pressure =  p.pressure + dP(p.mass, p.radius, p.density);
 
-        shells[i].temperature = p.temperature + dT(shells[i].luminosity, shells[i].radius, p.temperature, shells[i].absorption, shells[i].density);
+        shells[i].temperature = p.temperature + dT(p.luminosity, p.radius, p.temperature, p.absorption, p.density);
     }
 };
 
@@ -83,7 +83,7 @@ void sun::simulate_eddington_euler() {
     // now use standard physics equations to calculate luminosity and energy generation rate for each shell
     float deltaM = dM(shells[0].radius, shells[0].density);
     shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
-    shells[0].absorption = kappa(shells[0].radius);
+    shells[0].absorption = kappa(shells[0].density, shells[0].temperature);
 
     shells[0].mass = deltaM;
     shells[0].luminosity = dL(deltaM, shells[0].energy_generation_rate);
@@ -91,7 +91,7 @@ void sun::simulate_eddington_euler() {
 
         float deltaM = dM(shells[i].radius, shells[i].density);
         shells[i].energy_generation_rate = epsilon(shells[i].temperature, shells[i].density);
-        shells[i].absorption = kappa(shells[i].radius);
+        shells[i].absorption = kappa(shells[i].density, shells[i].temperature);
 
         shells[i].mass = shells[i - 1].mass + deltaM;
         shells[i].luminosity = shells[i - 1].luminosity + dL(deltaM, shells[i].energy_generation_rate);
@@ -131,7 +131,7 @@ void sun::simulate_eddington_rk4() {
     // initialize core using rk4 results
     float deltaM = dM(shells[0].radius, shells[0].density);
     shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
-    shells[0].absorption = kappa(shells[0].radius);
+    shells[0].absorption = kappa(shells[0].density, shells[0].temperature);
 
     shells[0].mass = deltaM;
     shells[0].luminosity = dL(deltaM, shells[0].energy_generation_rate);
@@ -142,7 +142,7 @@ void sun::simulate_eddington_rk4() {
 
         // not differential so we don't use rk4 here
         shells[i].energy_generation_rate = epsilon(shells[i].temperature, shells[i].density);
-        shells[i].absorption = kappa(shells[i].radius);
+        shells[i].absorption = kappa(shells[i].density, shells[i].temperature);
 
         // mass
         double k1_M = dM(p.radius, p.density);

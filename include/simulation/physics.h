@@ -7,7 +7,7 @@ double dT(double L_r, double r, double T, double kappa, double rho);
 double rho_approx(double radius);
 double rho(double T, double P);
 double epsilon(double T, double rho);
-double kappa(double radius);
+double kappa(double rho, double T);
 double dM(double r, double rho);
 double dL(double dM, double epsilon);
 
