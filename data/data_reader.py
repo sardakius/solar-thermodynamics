@@ -138,6 +138,7 @@ while running:
     pg.draw.circle(screen, WHITE, (center_x, center_y), core_rad, width=2)
     pg.draw.circle(screen, WHITE, (center_x, center_y), rad_rad, width=2)
     pg.draw.circle(screen, WHITE, (center_x, center_y), cnv_rad, width=2)
+    
     pg.display.flip()
 
 pg.quit()

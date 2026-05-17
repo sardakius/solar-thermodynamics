@@ -46,22 +46,24 @@ void sun::simulate_ssm() {
     shells[0].temperature = SSM_SOLAR_CORE_TEMPERATURE; // in Kelvin
     shells[0].density = SSM_SOLAR_CORE_DENSITY; // in kg/m^3
     shells[0].pressure = SSM_SOLAR_CORE_PRESSURE;
+    shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
+    shells[0].absorption = kappa(shells[0].density, shells[0].temperature);
 
     for (int i = 1; i <= (NUM_SHELLS - 1) ; i++) {
         shell p = shells[i - 1];
 
-        shells[i].density = rho(p.temperature, p.pressure);
+        shells[i].density = fmax(rho(p.temperature, p.pressure), 1e-10f);
 
         float deltaM = dM(shells[i].radius, p.density);
         shells[i].energy_generation_rate = epsilon(p.temperature, p.density);
         shells[i].absorption = kappa(p.density, p.temperature);
 
-        shells[i].mass = p.mass + deltaM;
-        shells[i].luminosity = p.luminosity + dL(deltaM, p.energy_generation_rate);
+        shells[i].mass = fmax(p.mass + deltaM, 0.0f);
+        shells[i].luminosity = fmax(p.luminosity + dL(deltaM, p.energy_generation_rate), 0.0f);
 
-        shells[i].pressure =  p.pressure + dP(p.mass, p.radius, p.density);
+        shells[i].pressure =  fmax(p.pressure + dP(p.mass, p.radius, p.density), 0.0f);
 
-        shells[i].temperature = p.temperature + dT(p.luminosity, p.radius, p.temperature, p.absorption, p.density);
+        shells[i].temperature = fmax(p.temperature + dT(p.luminosity, p.radius, p.temperature, p.absorption, p.density), 0.0f);
     }
 };
 
