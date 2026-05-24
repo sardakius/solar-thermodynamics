@@ -6,7 +6,7 @@ struct shell
     // non-eddington
     double radius;
     double energy_generation_rate;
-    double absorption;
+    double opacity;
     double mass;
     double luminosity;
     double pressure;
