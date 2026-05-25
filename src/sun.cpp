@@ -12,7 +12,7 @@ sun::sun() {
     for (int i = 1; i <= NUM_SHELLS; i++) {
         shells[i - 1].radius = dr * i;
         shells[i - 1].energy_generation_rate = 0.0f;
-        shells[i - 1].absorption = 0.0f;
+        shells[i - 1].opacity = 0.0f;
         shells[i - 1].mass = 0.0f;
         shells[i - 1].luminosity = 0.0f;
         shells[i - 1].pressure = 0.0f;
@@ -26,7 +26,7 @@ sun::sun() {
     // shells[0].density = SOLAR_CORE_DENSITY;
 
     // shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
-    // shells[0].absorption = kappa(shells[0].radius);
+    // shells[0].opacity = kappa(shells[0].radius);
 
     // shells[0].mass =  4.0f / 3.0f * PI * pow(shells[0].radius, 3) * shells[0].density;
     // shells[0].luminosity = dL(shells[0].mass, shells[0].energy_generation_rate);
@@ -47,7 +47,7 @@ void sun::simulate_ssm() {
     shells[0].density = SSM_SOLAR_CORE_DENSITY; // in kg/m^3
     shells[0].pressure = SSM_SOLAR_CORE_PRESSURE;
     shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
-    shells[0].absorption = kappa(shells[0].density, shells[0].temperature);
+    shells[0].opacity = kappa(shells[0].density, shells[0].temperature);
 
     for (int i = 1; i <= (NUM_SHELLS - 1) ; i++) {
         shell p = shells[i - 1];
@@ -56,14 +56,14 @@ void sun::simulate_ssm() {
 
         float deltaM = dM(shells[i].radius, p.density);
         shells[i].energy_generation_rate = epsilon(p.temperature, p.density);
-        shells[i].absorption = kappa(p.density, p.temperature);
+        shells[i].opacity = kappa(p.density, p.temperature);
 
         shells[i].mass = fmax(p.mass + deltaM, 0.0f);
         shells[i].luminosity = fmax(p.luminosity + dL(deltaM, p.energy_generation_rate), 0.0f);
 
         shells[i].pressure =  fmax(p.pressure + dP(p.mass, p.radius, p.density), 0.0f);
 
-        shells[i].temperature = fmax(p.temperature + dT(p.luminosity, p.radius, p.temperature, p.absorption, p.density), 0.0f);
+        shells[i].temperature = fmax(p.temperature + dT(p.luminosity, p.radius, p.temperature, p.opacity, p.density), 0.0f);
     }
 };
 
@@ -85,7 +85,7 @@ void sun::simulate_eddington_euler() {
     // now use standard physics equations to calculate luminosity and energy generation rate for each shell
     float deltaM = dM(shells[0].radius, shells[0].density);
     shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
-    shells[0].absorption = kappa(shells[0].density, shells[0].temperature);
+    shells[0].opacity = kappa(shells[0].density, shells[0].temperature);
 
     shells[0].mass = deltaM;
     shells[0].luminosity = dL(deltaM, shells[0].energy_generation_rate);
@@ -93,7 +93,7 @@ void sun::simulate_eddington_euler() {
 
         float deltaM = dM(shells[i].radius, shells[i].density);
         shells[i].energy_generation_rate = epsilon(shells[i].temperature, shells[i].density);
-        shells[i].absorption = kappa(shells[i].density, shells[i].temperature);
+        shells[i].opacity = kappa(shells[i].density, shells[i].temperature);
 
         shells[i].mass = shells[i - 1].mass + deltaM;
         shells[i].luminosity = shells[i - 1].luminosity + dL(deltaM, shells[i].energy_generation_rate);
@@ -133,7 +133,7 @@ void sun::simulate_eddington_rk4() {
     // initialize core using rk4 results
     float deltaM = dM(shells[0].radius, shells[0].density);
     shells[0].energy_generation_rate = epsilon(shells[0].temperature, shells[0].density);
-    shells[0].absorption = kappa(shells[0].density, shells[0].temperature);
+    shells[0].opacity = kappa(shells[0].density, shells[0].temperature);
 
     shells[0].mass = deltaM;
     shells[0].luminosity = dL(deltaM, shells[0].energy_generation_rate);
@@ -144,7 +144,7 @@ void sun::simulate_eddington_rk4() {
 
         // not differential so we don't use rk4 here
         shells[i].energy_generation_rate = epsilon(shells[i].temperature, shells[i].density);
-        shells[i].absorption = kappa(shells[i].density, shells[i].temperature);
+        shells[i].opacity = kappa(shells[i].density, shells[i].temperature);
 
         // mass
         double k1_M = dM(p.radius, p.density);
