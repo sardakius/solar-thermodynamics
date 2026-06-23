@@ -58,8 +58,8 @@ def draw_plot(plt, n, radius, rk4_data, euler_data, ssm_data, color, data_name, 
     # plt.plot(radius, ssm_data, label='SSM', color=color, linestyle='dotted')
     plt.xlabel('Radius (R⊙)')
     plt.ylabel(f'{data_name} ({unit})')
-    plt.title(f'Radius vs {data_name}')
+    plt.title(f'{data_name} vs Radius')
     if logscale:
         plt.yscale('log')
     plt.legend()
-    plt.savefig(f'data/profiles/radius_{data_name.lower().replace(" ", "_")}.png')
+    plt.savefig(f'data/profiles/{data_name.lower().replace(" ", "_")}.png')
